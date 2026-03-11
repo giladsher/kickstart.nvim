@@ -1,7 +1,22 @@
+---@param t1 table
+---@param t2 table
+---@return table
+function merge(t1, t2)
+  for k, v in pairs(t2) do
+    if (type(v) == 'table') and (type(t1[k] or false) == 'table') then
+      merge(t1[k], t2[k])
+    else
+      t1[k] = v
+    end
+  end
+  return t1
+end
+
 return {
   'tpope/vim-fugitive',
   config = function()
-    vim.keymap.set('n', '<leader>gs', vim.cmd.Git)
+    local set = vim.keymap.set
+    set('n', '<leader>gs', vim.cmd.Git, { desc = '[G]it' })
 
     local augroup = vim.api.nvim_create_augroup('Gilad_Fugitive', {})
 
@@ -15,19 +30,19 @@ return {
         end
 
         local bufnr = vim.api.nvim_get_current_buf()
-        local opts = { buffer = bufnr, remap = false }
-        vim.keymap.set('n', '<leader>gp', function()
+        local shared_opts = { buffer = bufnr, remap = false }
+        set('n', '<leader>gp', function()
           vim.cmd.Git 'pull'
-        end, opts)
+        end, merge(shared_opts, { desc = '[G]it [P]ull' }))
 
         -- rebase always
-        vim.keymap.set('n', '<leader>gpsh', function()
+        set('n', '<leader>gpsh', function()
           vim.cmd.Git { 'push' }
-        end, opts)
+        end, merge(shared_opts, { desc = '[G]it [P]u[sh]' }))
       end,
     })
 
-    vim.keymap.set('n', 'gu', '<cmd>diffget //2<CR>')
-    vim.keymap.set('n', 'gh', '<cmd>diffget //3<CR>')
+    set('n', 'gu', '<cmd>diffget //2<CR>')
+    set('n', 'gh', '<cmd>diffget //3<CR>')
   end,
 }
