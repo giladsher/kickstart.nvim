@@ -1,17 +1,4 @@
----@param t1 table
----@param t2 table
----@return table
-function merge(t1, t2)
-  for k, v in pairs(t2) do
-    if (type(v) == 'table') and (type(t1[k] or false) == 'table') then
-      merge(t1[k], t2[k])
-    else
-      t1[k] = v
-    end
-  end
-  return t1
-end
-
+require 'utils'
 --[[
 
 =====================================================================
@@ -1000,7 +987,7 @@ require('lazy').setup({
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter-intro`
     config = function()
       local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
-     require('nvim-treesitter').install(parsers)
+      require('nvim-treesitter').install(parsers)
       vim.api.nvim_create_autocmd('FileType', {
         callback = function(args)
           local buf, filetype = args.buf, args.match

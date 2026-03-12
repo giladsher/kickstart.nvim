@@ -43,10 +43,10 @@ return {
 
         local bufnr = vim.api.nvim_get_current_buf()
         local shared_opts = { buffer = bufnr, remap = false }
-        set('n', '<leader>gp', function() vim.cmd.Git 'pull' end, merge(shared_opts, { desc = '[G]it [P]ull' }))
+        set('n', '<leader>gp', function() vim.cmd.Git 'pull' end, Merge(shared_opts, { desc = '[G]it [P]ull' }))
 
         -- rebase always
-        set('n', '<leader>gpsh', function() vim.cmd.Git { 'push' } end, merge(shared_opts, { desc = '[G]it [P]u[sh]' }))
+        set('n', '<leader>gpsh', function() vim.cmd.Git { 'push' } end, Merge(shared_opts, { desc = '[G]it [P]u[sh]' }))
       end,
     })
 
